@@ -1,0 +1,68 @@
+<div class="container">
+  <h3>Agregar nuevo servicio</h3> <br>
+</div>
+
+
+<div [hidden]="completado" class="container">
+  <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+    <div class="form-group">
+      <label name="idTecnico"> Id del tecnico </label>
+      <input class="form-control" type="text" name="form-control" name="idTecnico" id="idTecnico" required
+        formControlName="idTecnico">
+    </div>
+    <div class="form-group">
+      <label name="idTipoServicio"> Servicio</label>
+      <input class="form-control" type="text" name="form-control" name="idTipoServicio" id="idTipoServicio" required
+        formControlName="idTipoServicio">
+    </div>
+    <div class="form-group">
+      <label name="fechaInicial"> Fecha y hora de inicio</label>
+      <input class="form-control" type="datetime-local" name="fechaInicial" id="fechaInicial" required
+        formControlName="fechaInicial">
+    </div>
+    <div class="form-group">
+      <label name="fechaFinal"> Fecha y hora fin</label>
+      <input class="form-control" type="datetime-local" name="form-control" name="fechaFinal" id="fechaFinal" required
+        formControlName="fechaFinal">
+    </div>
+    <button type="submit" [disabled]="!profileForm.valid" class="btn btn-success">Guardar</button>
+  </form>
+  <div *ngIf="idTecnico.invalid && (idTecnico.dirty || idTecnico.touched)" class="alert alert-danger">
+    <div *ngIf="idTecnico.errors.required">
+      La identificación del técnico es requerida
+    </div>
+  </div>
+
+  <div *ngIf="idTipoServicio.invalid && (idTipoServicio.dirty || idTipoServicio.touched)" class="alert alert-danger">
+    <div *ngIf="idTipoServicio.errors.required">
+      El servicio es requerido
+    </div>
+  </div>
+
+  <div *ngIf="fechaInicial.invalid && (fechaInicial.dirty || fechaInicial.touched)" class="alert alert-danger">
+    <div *ngIf="fechaInicial.errors.required">
+      La fecha inicial del servicio es requerida
+    </div>
+  </div>
+
+  <div *ngIf="fechaFinal.invalid && (fechaFinal.dirty || fechaFinal.touched)" class="alert alert-danger">
+    <div *ngIf="fechaFinal.errors.required">
+      La fecha final del servicio es requerida
+    </div>
+    <div *ngIf="fechaFinal.errors.validacionFecha && fechaFinal.touched">
+      La fecha final debe ser mayor a la fecha <i class="fas fa-sign-in-alt"></i>
+    </div>
+  </div>
+
+  <div *ngIf="validationForm" class="alert alert-danger">
+    <div *ngIf="fechaInicial.errors.required">
+      La fecha inicial del servicio es requerida
+    </div>
+  </div>
+
+
+
+ <!--  <div *ngIf="profileForm.get('validacionFecha') && fechaFinal.touched" class="alert alert-danger">
+    a
+  </div> -->
+</div>
