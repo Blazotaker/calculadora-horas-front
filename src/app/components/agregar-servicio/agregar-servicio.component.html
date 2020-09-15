@@ -1,19 +1,15 @@
-<div class="container">
-  <h3>Agregar nuevo servicio</h3> <br>
-</div>
-
-
 <div [hidden]="completado" class="container">
+  <h3>Agregar nuevo servicio</h3> <br> <br>
   <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
     <div class="form-group">
-      <label name="idTecnico"> Id del tecnico </label>
+      <label name="idTecnico"> Identificación del tecnico </label>
       <input class="form-control" type="text" name="form-control" name="idTecnico" id="idTecnico" required
-        formControlName="idTecnico">
+        formControlName="idTecnico" placeholder="Ingresar la identificaión del Técnico">
     </div>
     <div class="form-group">
       <label name="idTipoServicio"> Servicio</label>
       <input class="form-control" type="text" name="form-control" name="idTipoServicio" id="idTipoServicio" required
-        formControlName="idTipoServicio">
+        formControlName="idTipoServicio" placeholder="Ingresar el tipo de servicio">
     </div>
     <div class="form-group">
       <label name="fechaInicial"> Fecha y hora de inicio</label>
@@ -59,10 +55,13 @@
       La fecha inicial del servicio es requerida
     </div>
   </div>
+</div>
+
+<div [hidden]="!error" class="container" >
+  <h3 class="d-flex justify-content-center align-items-center"> {{ errorMensaje }}</h3>
+</div>
 
 
-
- <!--  <div *ngIf="profileForm.get('validacionFecha') && fechaFinal.touched" class="alert alert-danger">
-    a
-  </div> -->
+<div [hidden]="!completado" class="container">
+  <h3 class="d-flex justify-content-center align-items-center"> El servicio ha sido creado</h3>
 </div>

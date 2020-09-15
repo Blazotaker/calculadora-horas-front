@@ -1,0 +1,70 @@
+<div [hidden]="completado" class="container">
+  <h3>Consultar horas de trabajo</h3> <br>
+  <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+    <div class="form-group">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label name="idTecnico">Identificación del Técnico</label>
+            <input type="text" name="idTecnico" id="idTecnico" class="form-control"
+              placeholder="Ingrese la Identificación del tecnico" required formControlName="idTecnico"
+              >
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label name="semana">Semana</label>
+            <input type="number" name="semana" id="semana" class="form-control"
+              placeholder="Ingrese número de la semana" required formControlName="semana" >
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" [disabled]="!profileForm.valid" class="btn btn-success">Guardar</button>
+  </form>
+
+  <div *ngIf="idTecnico.invalid && (idTecnico.dirty || idTecnico.touched)" class="alert alert-danger">
+    <div *ngIf="idTecnico.errors.required">
+      La identificación del técnico es requerida
+    </div>
+  </div>
+
+  <div *ngIf="semana.invalid && (semana.dirty || semana.touched)" class="alert alert-danger">
+    <div *ngIf="semana.errors.required">
+      La semana es requerida
+    </div>
+  </div>
+
+  <div class="container" [hidden] = "!error">
+    <h4>{{ respuesta?.error }}</h4>
+  </div>
+
+  <br> <br>
+  <div class="container" [hidden]="!conDatos">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th>Horas normales</th>
+          <th>Horas nocturnas</th>
+          <th>Horas dominicales</th>
+          <th>Horas normales Extra</th>
+          <th>Horas nocturnas Extra</th>
+          <th>Horas dominicales Extra</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ respuesta?.HorasNormales }}</td>
+          <td>{{ respuesta?.HorasNocturnas }}</td>
+          <td>{{ respuesta?.HorasDominicales }}</td>
+          <td>{{ respuesta?.HorasNormalesExtra }}</td>
+          <td>{{ respuesta?.HorasNocturnasExtra  }}</td>
+          <td>{{ respuesta?.HorasDominicalesExtra}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+</div>

@@ -13,6 +13,11 @@ export class ServicioService {
     return this.http.post(`${this.url}/servicios`, servicio);
   }
 
+  consultarHoras(idTecnico: string, semana: number){
+    console.log(`${this.url}/servicios/${idTecnico}/semana/${semana}`);
+    return this.http.get(`${this.url}/servicios/${idTecnico}/semana/${semana}`);
+  }
+
 
 
 }

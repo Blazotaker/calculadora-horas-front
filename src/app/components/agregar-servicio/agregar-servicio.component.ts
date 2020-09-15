@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl, FormGroup } from '@angular/forms';
 import { Servicio } from 'src/app/model/servicio.model';
 import { ServicioService } from './../../services/servicio.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-agregar-servicio',
@@ -11,19 +12,22 @@ import { ServicioService } from './../../services/servicio.service';
 export class AgregarServicioComponent implements OnInit {
 
   servicio: Servicio = new Servicio();
-  completado: boolean;
+  completado: boolean = false;
   fechaI: Date;
   validationForm: boolean;
   profileForm: FormGroup;
+  error: boolean = false;
+  errorMensaje: '';
 
-  constructor(private fb: FormBuilder, private servicioService: ServicioService) { }
+
+  constructor(private fb: FormBuilder, private servicioService: ServicioService, private router: Router) { }
 
   ngOnInit(): void {
     this.inicializarFormulario();
     this.onChangeForm();
   }
 
-  inicializarFormulario(): void{
+  inicializarFormulario(): void {
     this.profileForm = this.fb.group({
       idTecnico: ['', [Validators.required]],
       idTipoServicio: ['', [Validators.required]],
@@ -33,35 +37,55 @@ export class AgregarServicioComponent implements OnInit {
   }
 
 
-  validarFechas(): ValidatorFn{
-    return (control: AbstractControl): {[key: string]: boolean} | null => {
+  validarFechas(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
       const fechaInicial = this.fechaI;
-      if(fechaInicial >= control.value){
-        return { 'validacionFecha' : true }
+      if (fechaInicial >= control.value) {
+        return { 'validacionFecha': true }
       }
       return null;
     };
   }
-  onChangeForm(): void{
+  onChangeForm(): void {
     this.profileForm.get('fechaInicial').valueChanges.subscribe(val => {
       this.fechaI = val;
     });
   }
 
-  onSubmit() {
-    console.log(this.fechaInicial.value <  this.fechaFinal.value)
+  onSubmit(): void {
     if (this.profileForm.valid) {
       this.servicio.idTecnico = this.idTecnico.value;
       this.servicio.idTipoServicio = this.idTipoServicio.value;
       this.servicio.fechaInicio = this.fechaInicial.value;
       this.servicio.fechaFin = this.fechaFinal.value;
       this.servicioService.agregarServicio(this.servicio)
-      .subscribe(data => {
-        console.log(data);
-        this.completado = true;
-      }, error => console.log(error))
+        .subscribe((data: any) => {
+          const { servicio, error } = data;
+          if (error == null) {
+            this.completado = true;
+            setTimeout(() => {
+              this.irAInicio();
+            }, 2500);
+          } else {
+            this.error = true;
+            this.errorMensaje = error;
+            setTimeout(() => {
+              this.completado = false;
+              this.errorMensaje = '';
+              this.error = false;
+            }, 3000);
+          }
+
+        }, error => {
+          console.log(error);
+        })
+    } else {
 
     }
+  }
+
+  irAInicio() {
+    this.router.navigate(['']);
   }
 
   get idTecnico(): any {

@@ -1,9 +1,14 @@
+import { HomeComponent } from './components/home/home.component';
+import { ConsultarHorasComponent } from './components/consultar-horas/consultar-horas.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AgregarServicioComponent } from './components/agregar-servicio/agregar-servicio.component';
 
 const routes: Routes = [
-  { path: 'agregarservicio', component: AgregarServicioComponent }
+  { path: '', component: HomeComponent},
+  { path: 'agregarservicio', component: AgregarServicioComponent },
+  { path: 'consultarhora', component: ConsultarHorasComponent},
+  { path: '**', component: HomeComponent}
 ];
 
 @NgModule({
